@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Group from "../database/models/group.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
+import { Trykker } from "next/font/google";
 
 
 export async function createGroup(
@@ -100,9 +101,24 @@ export async function getAllGroups() {
         await connectToDatabase();
         const group = await Group.find().populate(
             'members',
-
-        )
+            'firstName lastName photo',
+        );
+        return JSON.parse(JSON.stringify(group))
     } catch (error) {
-        
+        handleError(error);
     }
 }
+export async function getGroupMessages(groupId: string) {
+    try {
+        await connectToDatabase();
+        const group = await Group.findById(groupId).populate(
+            'messages.sender',
+            'firstName lastName photo',
+        );
+        if (!group) throw new Error("Group not found");
+
+        return JSON.parse(JSON.stringify(group.messages));
+    } catch (error) {
+        handleError(error)
+    }
+};

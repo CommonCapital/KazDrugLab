@@ -1,14 +1,25 @@
 'use client'
 
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import SidebarItem from './SidebarItem'
 import useLocalStorage from '@/hook/useLocalStorage'
 import {
   Atom,
-  ChevronLeftIcon,
+  Home,
   LayoutDashboard,
   MessageSquareText,
   Microscope,
@@ -16,55 +27,28 @@ import {
   Settings,
 } from 'lucide-react'
 
-interface SidebarProps {
-  sidebarOpen: boolean
-  setSidebarOpen: (arg: boolean) => void
-}
-
+// Menu data (same as before)
 const menuGroups = [
   {
     name: '',
     menuItems: [
-      {
-        icon: <LayoutDashboard size={22} />,
-        label: 'Dashboard',
-        route: '/dashboard',
-      },
-      {
-        icon: <Atom size={22} />,
-        label: 'Molecules Bank',
-        route: '/molecule-bank',
-      },
-      {
-        icon: <Network size={22} />,
-        label: 'Model',
-        route: '/model',
-      },
-      {
-        icon: <Microscope size={22} />,
-        label: 'Research',
-        route: '/research',
-      },
-      {
-        icon: <MessageSquareText size={22} />,
-        label: 'Messages',
-        route: '/message',
-      },
+      { icon: <Home size={20} />, label: 'Home', route: '/dashboard' },
+      { icon: <Atom size={20} />, label: 'Molecules Bank', route: '/molecule-bank' },
+      { icon: <Network size={20} />, label: 'Model', route: '/model' },
+      { icon: <Microscope size={20} />, label: 'Research', route: '/research' },
+      { icon: <MessageSquareText size={20} />, label: 'Messages', route: '/message' },
     ],
   },
   {
     name: 'OTHERS',
     menuItems: [
-      {
-        icon: <Settings size={22} />,
-        label: 'Settings',
-        route: '/settings',
-      },
+      { icon: <Settings size={20} />, label: 'Settings', route: '/settings' },
     ],
   },
 ]
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+// Your custom Sidebar component using shadcn/ui primitives
+export function AppSidebar() {
   const pathname = usePathname()
   const [pageName, setPageName] = useLocalStorage('selectedMenu', 'Dashboard')
 
@@ -76,13 +60,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   }, [pathname])
 
   return (
-    <aside
-      className={`fixed left-0 top-0 z-50 flex h-screen w-72 flex-col bg-gradient-to-b from-gray-900 via-gray-950 to-black/90 shadow-2xl ring-1 ring-white/5 transition-all duration-300 ease-in-out backdrop-blur-xl
-        lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-        <Link href="/" className="flex items-center space-x-3">
+    <Sidebar className="border-r border-white/10 bg-gradient-to-b from-gray-900 via-gray-950 to-black/90 text-white">
+      <SidebarHeader className="px-4 py-5">
+        <Link href="/" className="flex items-center gap-3">
           <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 shadow-lg shadow-indigo-500/30">
             <Image
               width={32}
@@ -92,72 +72,59 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               className="object-contain"
             />
           </div>
-          <span className="text-lg font-semibold text-white tracking-wide">KazDrugLab</span>
+          <span className="text-lg font-semibold tracking-wide">KazDrugLab</span>
         </Link>
+      </SidebarHeader>
 
-        <button
-          onClick={() => setSidebarOpen(false)}
-          aria-label="Close sidebar"
-          className="rounded-lg p-2 text-gray-400 hover:bg-gray-800/80 hover:text-white transition-colors lg:hidden"
-        >
-          <ChevronLeftIcon className="h-6 w-6" />
-        </button>
-      </div>
-
-      {/* Navigation */}
-      <div className="no-scrollbar flex flex-1 flex-col overflow-y-auto px-3 py-6">
-        <nav className="space-y-7">
-          {menuGroups.map((group, groupIndex) => (
-            <div key={groupIndex}>
-              {group.name && (
-                <h3 className="px-3 text-[11px] font-semibold uppercase tracking-wider text-gray-500/70">
+      <SidebarContent className="px-2 py-4">
+        {menuGroups.map((group, groupIndex) => (
+          <SidebarGroup key={groupIndex} className="py-1">
+            {group.name && (
+              <div className="px-3 pb-2">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-500/70">
                   {group.name}
-                </h3>
-              )}
-              <ul className="mt-3 space-y-1.5">
-                {group.menuItems.map((menuItem, menuIndex) => {
-                  const active = pageName === menuItem.label
-                  return (
-                    <li key={menuIndex}>
+                </span>
+              </div>
+            )}
+            <SidebarMenu>
+              {group.menuItems.map((item, index) => {
+                const isActive = pageName === item.label
+                return (
+                  <SidebarMenuItem key={index}>
+                    <SidebarMenuButton asChild isActive={isActive}>
                       <Link
-                        href={menuItem.route}
+                        href={item.route}
                         onClick={() => {
-                          setPageName(menuItem.label)
-                          if (window.innerWidth < 1024) setSidebarOpen(false)
+                          setPageName(item.label)
+                          // Sidebar auto-closes on mobile after navigation
                         }}
-                        className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200
-                          ${
-                            active
-                              ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-600/30'
-                              : 'text-gray-400 hover:text-white hover:bg-gray-800/60'
-                          }`}
+                        className="gap-3"
                       >
                         <span
-                          className={`flex items-center justify-center rounded-lg ${
-                            active
+                          className={
+                            isActive
                               ? 'text-white'
                               : 'text-gray-400 group-hover:text-indigo-400'
-                          }`}
+                          }
                         >
-                          {menuItem.icon}
+                          {item.icon}
                         </span>
-                        {menuItem.label}
+                        {item.label}
                       </Link>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          ))}
-        </nav>
-      </div>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroup>
+        ))}
+      </SidebarContent>
 
-      {/* Footer (optional) */}
-      <div className="border-t border-white/10 px-6 py-4 text-xs text-gray-500/70">
-        © {new Date().getFullYear()} KazDrugLab
-      </div>
-    </aside>
+      <SidebarFooter className="px-4 py-3 border-t border-white/10">
+        <div className="text-xs text-gray-500/70">
+          © {new Date().getFullYear()} KazDrugLab
+        </div>
+      </SidebarFooter>
+    </Sidebar>
   )
 }
-
-export default Sidebar

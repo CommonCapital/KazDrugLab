@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
-import {sendVerificationEmail, sendResetPasswordEmail} from ;
+import { sendVerificationEmail, sendResetPasswordEmail } from "./email.actions"; 
 
 
 export async function createUser(user: CreateUserParams) {
@@ -28,10 +28,10 @@ export async function createUser(user: CreateUserParams) {
         });
 
 
-        const verificationUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/verify-email?email=${user.email}`
+        const verificationUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/verify-email?token=${newUser._id}`;
         await sendVerificationEmail(
-            user.email,
-            user.firstName || "User",
+            newUser.email,
+            newUser.firstName || "User",
             verificationUrl,
         );
 
@@ -80,9 +80,9 @@ export async function verifyEmail(token: string) {
 export async function requestPasswordReset(email: string) {
     try {
         await connectToDatabase();
-        const user = await User.findOne({email})
+        const user = await User.findOne({email : email})
         if (!user) throw new Error("User not found")
-        const resetUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/reset-password?email=${email}`
+        const resetUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/reset-password?token=${user._id}`;
         await sendResetPasswordEmail(
             user.email,
             user.firstName || "User",

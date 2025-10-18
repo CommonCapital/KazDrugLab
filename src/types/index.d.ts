@@ -21,8 +21,8 @@ declare type CreateUserParams = {
     email: string;
     fullname?: string;
     password: string;
-    photo: string;
-    firstName?: string;
+    photo?: string;
+    firstName: string;
     lastName?: string;
     userBio?: string;
     isEmailVerified?: boolean; 

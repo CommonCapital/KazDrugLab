@@ -3,13 +3,13 @@
 import { Menu, Search } from 'lucide-react'
 import { DropdownMessage } from './DropdownMessage'
 import { DropDownUser } from './DropDownUser'
+import { useSidebar } from '@/components/ui/sidebar'
 
-interface HeaderProps {
-  sidebarOpen: boolean
-  setSidebarOpen: (arg: boolean) => void
-}
 
-const Header = ({ sidebarOpen, setSidebarOpen }: HeaderProps) => {
+
+const Header = () => {
+const { state, toggleSidebar, isMobile } = useSidebar();
+ 
   return (
     <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-gray-200 bg-white px-4 py-3 shadow-sm dark:border-gray-700 dark:bg-gray-900">
       {/* Left section — mobile toggle + search */}
@@ -17,10 +17,14 @@ const Header = ({ sidebarOpen, setSidebarOpen }: HeaderProps) => {
         {/* Sidebar toggle (mobile only) */}
         <button
           aria-controls="sidebar"
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="block rounded-lg border border-gray-300 bg-white p-2 text-gray-700 transition hover:bg-gray-100 hover:text-black dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 lg:hidden"
+           onClick={toggleSidebar}
+          className="block rounded-lg border border-gray-300 bg-white p-2 text-gray-700 transition hover:bg-gray-100 hover:text-black dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 "
         >
-          <Menu className="h-5 w-5" />
+           {state === "collapsed" || isMobile ? (
+            <Menu className="size-4" />
+          ) : (
+            <Menu className="size-4" />
+          )}
         </button>
 
         {/* Search bar */}
