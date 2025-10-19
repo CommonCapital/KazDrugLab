@@ -6,7 +6,7 @@ const Page = () => {
     return (
         <DefaultLayout>
             <ComponentHeader pageName="Molecule Bank" />
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col">
                 <MoleculeBankTable />
             </div>
         </DefaultLayout>

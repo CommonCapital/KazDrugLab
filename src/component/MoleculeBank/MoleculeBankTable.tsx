@@ -401,7 +401,7 @@ const MoleculeBankTable = () => {
 
   return (
     <div className="rounded-lg border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-[#181818] dark:bg-[#181818] sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+      <h4 className="mb-6 text-xl font-semibold text-black ">
         Molecules
       </h4>
 
@@ -415,22 +415,22 @@ const MoleculeBankTable = () => {
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-lg bg-gray-2 dark:bg-[#121212] sm:grid-cols-4">
           <div className="p-2.5 xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="text-sm text-black font-medium uppercase xsm:text-base">
               Molecule name
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="text-sm text-black font-medium uppercase xsm:text-base">
               Smile Structure Image
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="text-sm text-black font-medium uppercase xsm:text-base">
               Molecular Weights (g/mol)
             </h5>
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
+            <h5 className="text-sm text-black font-medium uppercase xsm:text-base">
               Category Usage
             </h5>
           </div>

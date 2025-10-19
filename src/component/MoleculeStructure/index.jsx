@@ -1,7 +1,7 @@
 "use client";
 import React, { Component } from "react";
 import _ from "lodash";
-import initRDKit from "@/lib/utils/utils";
+import {initRDKit} from "../../lib/utils/utils";
 import PropTypes from "prop-types";
 
 class MoleculeStructure extends Component {

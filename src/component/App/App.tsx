@@ -56,7 +56,7 @@ const App = ({metadata}: Props) => {
             <h1 className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
               KazDrugLab
             </h1>
-            <p className="text-[10px] sm:text-xs text-slate-400 hidden xs:block">{metadata.title}</p>
+            <p className="text-[10px] sm:text-xs text-slate-400 hidden xs:block">{typeof metadata?.title === 'string' ? metadata.title : ''}</p>
           </div>
         </div>
 
