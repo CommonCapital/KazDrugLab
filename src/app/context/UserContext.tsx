@@ -11,31 +11,34 @@ import { getUserByEmail } from '@/lib/actions/user.action';
 
 
 const userContext = createContext<any>(null);
-export const userProvider = ({children}: {children: ReactNode}) => {
+export const UserProvider = ({children}: {children: ReactNode}) => {
     const {data: session} = useSession();
-    const [user, setUser] = useState({
-        firstName: "Nursan",
-        lastName: "Omarov",
-        photo: "/Default_User_image.png",
-        jobTitle: "Drug Researcher",
-        userBio: "Passionate about advancing drug research and improving patient outcomes through innovative solutions.",
+    
+   const [user, setUser] = useState({
+  
+  firstName: "Nursan",
+  lastName: "Omarov",
+  photo: "/Default_User_image.png",
+  jobTitle: "Drug Researcher",
+  userBio: "Passionate about advancing drug research and improving patient outcomes through innovative solutions.",
+});
+
+useEffect(() => {
+  const fetchUser = async () => {
+    if (session?.user?.email) {
+      const fetchedUser = await getUserByEmail(session.user.email);
+      setUser({
         
-    });
-    useEffect(() => {
-       const fetchUser = async () => {
-        if (session?.user?.email) {
-            const fetchedhUser = await getUserByEmail(session.user.email);
-            setUser({
-                firstName: fetchedhUser?.firstName || "Nursan",
-                lastName: fetchedhUser?.lastName || "Omarov",
-                photo: fetchedhUser?.photo || "/Default_User_image.png",
-                jobTitle: fetchedhUser?.jobTitle || "Drug Researcher",
-                userBio: fetchedhUser?.userBio || "Passionate about advancing drug research and improving patient outcomes through innovative solutions.",
-            });
-        }
-       };
-       fetchUser();
-    }, [session?.user?.email]);
+        firstName: fetchedUser?.firstName || "Nursan",
+        lastName: fetchedUser?.lastName || "Omarov",
+        photo: fetchedUser?.photo || "/Default_User_image.png",
+        jobTitle: fetchedUser?.jobTitle || "Drug Researcher",
+        userBio: fetchedUser?.userBio || "Passionate about advancing drug research and improving patient outcomes through innovative solutions.",
+      });
+    }
+  };
+  fetchUser();
+}, [session?.user?.email]);
 
 
     return (

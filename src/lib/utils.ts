@@ -4,16 +4,35 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-export const handleError = (error:unknown) => {
+function safeStringify(obj: unknown): string {
+  const cache = new Set();
+  return JSON.stringify(obj, (key, value) => {
+    if (typeof value === "object" && value !== null) {
+      if (cache.has(value)) {
+        return; // Avoid circular reference
+      }
+      cache.add(value);
+    }
+    // Convert non-serializable values (like functions, undefined) to string
+    if (typeof value === "function" || value === undefined) {
+      return String(value);
+    }
+    return value;
+  }, 2);
+}
+
+export const handleError = (error: unknown) => {
   if (error instanceof Error) {
-    console.error(error.message)
+    console.error("Error instance:", error.message);
     throw new Error(`Error: ${error.message}`);
-  } else if (typeof error === 'string') {
-    console.error(error);
-    throw new Error(`Error: ${error}`)
+  } else if (typeof error === "string") {
+    console.error("String error:", error);
+    throw new Error(`Error: ${error}`);
   } else {
-    console.error(error);
-    throw new Error(`Unknown error: ${JSON.stringify(error)}`)
+    // ✅ Safely stringify complex/circular objects
+    const errorMessage = safeStringify(error);
+    console.error("Unknown error:", errorMessage);
+    throw new Error(`Unknown error: ${errorMessage}`);
   }
 };
 
@@ -54,3 +73,5 @@ return new Promise((resolve) => {
   }
 })
 }
+
+

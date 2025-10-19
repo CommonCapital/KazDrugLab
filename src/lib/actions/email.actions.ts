@@ -1,7 +1,7 @@
 export async function sendVerificationEmail (
     email: string, firstName: string, verificationUrl: string,
 ) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/send-verification-email`,
+    const response = await fetch(`${process.env.API_BASE_URL}/api/send-verification-email`,
         {
             method: "POST",
             headers: {
@@ -29,7 +29,7 @@ export async function sendResetPasswordEmail(
     firstName: string,
     resetUrl: string,
 ) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/send-reset-password-email`,
+    const response = await fetch(`${process.env.API_BASE_URL}/api/send-reset-password-email`,
         {
 method: "POST",
 headers: {

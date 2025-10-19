@@ -4,7 +4,7 @@ import { useState } from "react";
 
 
 
-const ImageInput = () => {
+export const ImageInput = () => {
 const [imageFile, setImageFile] = useState<File | null>(null);
 const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -12,8 +12,8 @@ const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
 
 }
-
-const convertImageToBase64 = (file: File): Promise<string> => {
+}
+export const convertImageToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -27,10 +27,3 @@ const convertImageToBase64 = (file: File): Promise<string> => {
         };
     });
 };
-
-
-
-
-}
-
-export default ImageInput

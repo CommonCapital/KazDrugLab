@@ -26,9 +26,11 @@ import {
   Menu
 } from 'lucide-react';
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 type Props = {metadata: Metadata}
  
 const App = ({metadata}: Props) => {
+  const {data: session} = useSession()
     const [activeSection, setActiveSection] = useState('home');
      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
      const router = useRouter()
@@ -86,9 +88,12 @@ const App = ({metadata}: Props) => {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+{!session?.user &&
+
           <button className="hidden sm:block px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-slate-300 hover:text-white transition-colors">
             Sign In
           </button>
+          }
           <button className="px-3 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-medium bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all shadow-lg shadow-cyan-500/25">
             Get Started
           </button>
@@ -130,9 +135,11 @@ const App = ({metadata}: Props) => {
             Collaboration
           </button>
           <div className="pt-3 border-t border-slate-800/50">
+          {!session?.user &&
             <button className="block w-full px-4 py-3 text-sm font-medium text-center text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-slate-800/50">
               Sign In
             </button>
+}
           </div>
         </div>
       </div>
@@ -149,7 +156,7 @@ const App = ({metadata}: Props) => {
         <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-4 sm:mb-6">
             <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
-            <span className="text-xs sm:text-sm text-cyan-400 font-medium">Powered by NVIDIA AI</span>
+            <span className="text-xs sm:text-sm text-cyan-400 font-medium">Powered by Gen AI</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight px-4">
@@ -177,7 +184,7 @@ const App = ({metadata}: Props) => {
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-3xl mx-auto px-4">
             <div className="text-center">
-              <div className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-1">250K+</div>
+              <div className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-1">Aiming for 250k+</div>
               <div className="text-xs sm:text-sm text-slate-400">Molecules in Bank</div>
             </div>
             <div className="text-center">
@@ -464,7 +471,7 @@ const App = ({metadata}: Props) => {
           <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 px-4">
             Powered by{' '}
             <span className="bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text text-transparent">
-              NVIDIA AI
+              Generative AI
             </span>
           </h3>
           <p className="text-sm sm:text-base lg:text-lg text-slate-400 max-w-2xl mx-auto px-4">

@@ -1,5 +1,7 @@
 'use client'
+import { useUser } from '@/app/context/UserContext'
 import { ChevronDownIcon, LogOut, Settings, User2 } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,7 +10,12 @@ import React, { useState } from 'react'
 export const DropDownUser = () => {
   const [dropdownOpen, setDropDownOpen] = useState(false)
   const router = useRouter()
+const user = useUser();
 
+const handleLogout = async () => {
+  await signOut({redirect: false});;
+  router.push("/auth/sign-in");
+}
   return (
     <div className="relative">
       {/* User trigger */}
@@ -18,7 +25,7 @@ export const DropDownUser = () => {
       >
         <div className="hidden text-right lg:block">
           <p className="text-sm font-medium text-gray-800 dark:text-white">
-            Nursan Omarov
+            {user.firstName} {user.lastName}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             Drug Researcher
@@ -29,7 +36,7 @@ export const DropDownUser = () => {
           <Image
             width={80}
             height={80}
-            src="/Default_User_image.png"
+            src={user.photo || "/Default_User_image.png"}
             alt="user image"
             className="h-full w-full object-cover"
           />
@@ -66,7 +73,7 @@ export const DropDownUser = () => {
             </li>
           </ul>
           <button
-            onClick={() => router.push('/logout')}
+            onClick={handleLogout}
             className="flex w-full items-center gap-3 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-gray-800"
           >
             <LogOut size={16} />

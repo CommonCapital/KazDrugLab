@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input";
 import { getUserByEmail, requestPasswordReset } from "@/lib/actions/user.action";
 import { handleError } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Link, OctagonAlertIcon } from "lucide-react";
+import { OctagonAlertIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -122,15 +123,10 @@ return (
                
                 
 
-                <div className="text-center text-sm ">
+                <Link href="/auth/sign-up" className=" underline underline-offset-4 text-center text-sm ">
                   Don't have an account? {""}
-                  <Link
-                    href="/auth/sign-up"
-                    className="underline underline-offset-4"
-                  >
-                    Create an account
-                  </Link>
-                </div>
+                  
+                </Link>
                 
               </div >
             </form>

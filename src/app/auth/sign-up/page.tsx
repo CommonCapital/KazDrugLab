@@ -80,7 +80,7 @@ const SignUp = () => {
    
     });
     console.log(createdUser);
-     await 
+     
     router.push("/");
   } catch (error) {
     setError("An unexpected error occurred. Please try again.");

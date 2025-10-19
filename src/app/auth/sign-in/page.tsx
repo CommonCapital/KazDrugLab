@@ -141,14 +141,14 @@ password: data.password,
                     Create an account
                   </Link>
                 </div>
-                 <div className="text-center text-sm ">
+               {/**   <div className="text-center text-sm ">
                      <Link
                     href="/forget-password"
                     className="underline underline-offset-4"
                   >
                     Forgot password?
                   </Link>
-                 </div>
+                 </div>*/}
               </div>
             </form>
           </Form>

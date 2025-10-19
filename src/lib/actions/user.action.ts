@@ -21,19 +21,19 @@ export async function createUser(user: CreateUserParams) {
         const newUser = await User.create({
             ...user,
             password: hashedPassword,
-            userBio: user.userBio || "",
+           
 
 
             
         });
 
 
-        const verificationUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/verify-email?token=${newUser._id}`;
-        await sendVerificationEmail(
-            newUser.email,
-            newUser.firstName || "User",
-            verificationUrl,
-        );
+      //  const verificationUrl = `${process.env.API_BASE_URL}/verify-email?token=${newUser._id}`;
+      //  await sendVerificationEmail(
+       //     newUser.email,
+       //    newUser.firstName || "User",
+       //    verificationUrl,
+     //   );
 
         return JSON.parse(JSON.stringify(newUser));
     } catch (error:any) {
@@ -82,7 +82,7 @@ export async function requestPasswordReset(email: string) {
         await connectToDatabase();
         const user = await User.findOne({email : email})
         if (!user) throw new Error("User not found")
-        const resetUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/reset-password?token=${user._id}`;
+        const resetUrl = `${process.env.API_BASE_URL}/reset-password?token=${user._id}`;
         await sendResetPasswordEmail(
             user.email,
             user.firstName || "User",
@@ -137,6 +137,7 @@ try {
     const updateUser = await User.findOneAndUpdate({_id: Id}, user, {
         new: true,
     });
+console.log("Updating user:", Id, user);
 
     if (!updateUser) throw new Error("User update failed")
         return JSON.parse(JSON.stringify(updateUser))

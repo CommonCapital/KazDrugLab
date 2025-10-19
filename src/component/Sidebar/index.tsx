@@ -32,7 +32,7 @@ const menuGroups = [
   {
     name: '',
     menuItems: [
-      { icon: <Home size={20} />, label: 'Home', route: '/dashboard' },
+      { icon: <Home size={20} />, label: 'Home', route: '/' },
       { icon: <Atom size={20} />, label: 'Molecules Bank', route: '/molecule-bank' },
       { icon: <Network size={20} />, label: 'Model', route: '/model' },
       { icon: <Microscope size={20} />, label: 'Research', route: '/research' },

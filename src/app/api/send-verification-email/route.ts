@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const {firstName, email, verificationUrl} = await request.json();
     try {
         const {data, error} = await resend.emails.send({
-            from: "KazDrugLab <nursanomarov616@gmail.com",
+            from: "KazDrugLab <nursanomarov616@gmail.com>",
             to: [email],
             subject: "Reset your password",
             react: await VerifyEmailTemplate({firstName, verificationUrl})
@@ -16,6 +16,7 @@ export async function POST(request: Request) {
 if (error) {
     return new Response(JSON.stringify({error}), {status: 500});
     }
+    return Response.json({ success: true });
 } catch (error) {
         return new Response(JSON.stringify({error}), {status: 500})
     }
